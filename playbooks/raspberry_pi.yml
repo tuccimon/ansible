@@ -1,8 +1,6 @@
-  ---
-  - hosts: all
-    become: yes
-    become_user: root
-    vars:
-      ansible_python_interpreter: /usr/bin/python3
-    tasks:
-      - debug: msg="Ansible running in {{ansible_lsb.id}}!"
+- name: Raspberry Pi Test
+  hosts: all
+  tasks:
+    - name: Message Result
+      debug:
+        msg: "Ansible running in {{ansible_lsb.id}}!"
