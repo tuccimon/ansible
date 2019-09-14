@@ -1,0 +1,15 @@
+# Note async works on Windows Server 2012 or newer - become must be explicitly set on the task for this to work
+- name: Search for Windows updates asynchronously
+  win_updates:
+    category_names:
+    - SecurityUpdates
+      - CriticalUpdates
+      - UpdateRollups
+    state: searched
+  reboot: yes
+  async: 180
+  poll: 10
+  register: updates_to_install
+  become: yes
+  become_method: runas
+  become_user: SYSTEM
