@@ -1,5 +1,5 @@
-# Note async works on Windows Server 2012 or newer - become must be explicitly set on the task for this to work
 - name: Search for Windows updates asynchronously
+  hosts: all
   win_updates:
     category_names:
     - SecurityUpdates
