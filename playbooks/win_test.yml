@@ -1,1 +1,5 @@
-- win_ping:
+- name: Windows Machine Test
+  hosts: all
+  tasks:
+    - name: Windows ping
+      win_ping:
