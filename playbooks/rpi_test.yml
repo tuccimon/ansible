@@ -1,6 +1,6 @@
 - name: Raspberry Pi Test
   hosts: all
-  gather_facts: false
   tasks:
     - name: Message Result
-      shell: "pwd"
+      debug:
+        msg: "Ansible running in {{ansible_lsb.id}}!"
