@@ -11,23 +11,31 @@
       path: c:\temp\{{ ansible_hostname }}.txt
       timeout: 5
     ignore_errors: true
+    register: file_found
 
-  - name: get file contents
-    win_shell: |
-      Get-Content 'c:\temp\{{ ansible_hostname }}.txt'
-    register: ts_result
+  - name: display file found status
+    debug: msg="{{ file_found.failed }}"
 
-  - name: display ts_result
-    debug: msg="{{ ts_result.stdout_lines[0] }}"
+  - name: get file results and process
+    block:
+      - name: get file contents
+        win_shell: |
+          Get-Content 'c:\temp\{{ ansible_hostname }}.txt'
+        register: ts_result
 
-  - name: display success message
-    debug: msg="task seq passed!!!"
-    when: ts_result.stdout_lines[0] == "passed"
+      - name: display ts_result
+        debug: msg="{{ ts_result.stdout_lines[0] }}"
 
-  - name: display hostname
-    debug: msg="task seq failed!!!"
-    when: ts_result.stdout_lines[0] == "failed"
+      - name: display success message
+        debug: msg="task seq passed!!!"
+        when: ts_result.stdout_lines[0] == "passed"
 
-  - name: display hostname
+      - name: display failed message
+        debug: msg="task seq failed!!!"
+        when: ts_result.stdout_lines[0] == "failed"
+
+    when: file_found.failed == false
+
+  - name: display timed out
     debug: msg="timed out!!!"
-    when: ts_result == "null"
+    when: file_found.failed == true
