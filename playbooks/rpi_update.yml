@@ -3,18 +3,15 @@
   tasks:
     - name: Update apt packages
       become: true
-      apt: 
-        update_cache: yes
+      command: apt update
 
     - name: Upgrade apt packages
       become: true
-      apt: 
-        upgrade: dist
+      command: apt upgrade -y
 
     - name: Remove old packages
       become: true
-      apt: 
-        autoremove: yes
+      command: apt autoremove -y
 
     - name: Update tzdata
       become: true
