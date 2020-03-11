@@ -1,14 +1,13 @@
-- name: Search for Windows updates asynchronously
-  hosts: all
+- name: Install all critical and security updates
   win_updates:
     category_names:
-    - SecurityUpdates
     - CriticalUpdates
+    - SecurityUpdates
     - UpdateRollups
-    state: searched
-  reboot: yes
-  async: 180
-  poll: 10
-  become: yes
-  become_method: runas
-  become_user: SYSTEM
+    state: installed
+  register: update_result
+
+- name: reboot host if required
+  win_reboot:
+  when: update_result.reboot_required
+  
